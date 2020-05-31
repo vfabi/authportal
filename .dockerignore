@@ -1,0 +1,16 @@
+.venv
+.git
+.vscode
+.tmp
+.fls
+deploy
+**/__pycache__
+**/*.log
+**/*.pyc
+**/*.local
+**/*.local.yaml
+**/*.local.yml
+.dockerignore
+.gitignore
+var/db.json
+env.local

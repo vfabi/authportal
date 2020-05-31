@@ -1,0 +1,11 @@
+Flask==1.1.2
+Flask-Login==0.5.0
+Flask-WTF==0.14.3
+WTForms==2.3.1
+ldap3==2.7
+uWSGI==2.0.18
+jsondatabase==0.1.7
+pytz==2020.1
+#flask-simple-captcha==1.1.0
+git+git://github.com/vfabi/flask-simple-captcha@master  # fixed version of original flask-simple-captcha==1.1.0
+cryptography==2.9.2

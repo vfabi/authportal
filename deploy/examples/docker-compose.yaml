@@ -1,0 +1,41 @@
+# OpenLDAP, PHPldapadmin and AuthPortal stack.
+
+
+version: '3'
+services:
+
+  openldap:
+    image: osixia/openldap
+    environment:
+      LDAP_ORGANISATION: example
+      LDAP_DOMAIN: example.com
+      LDAP_ADMIN_PASSWORD: admin
+    ports:
+      - 389:389
+
+  phpldapadmin:
+    image: osixia/phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: openldap
+      PHPLDAPADMIN_HTTPS: 'false'
+    ports:
+      - 5000:80
+    depends_on:
+      - openldap
+
+  authportal:
+    image: vfabi/authportal:latest
+    environment:
+      UNAUTHORIZED_ACTION: return_401
+      REDIRECT_URL_PARAM_NAME: rd
+      HTML_FORM_HEADER: Edge Authentication Portal
+      AUTH_BACKEND: ldap
+      LDAP_SERVER_USER_DN: cn=admin,dc=example,dc=com
+      LDAP_SERVER_PASSWORD: admin
+      LDAP_SERVER_SEARCH_RDN: ou=Users,dc=example,dc=com
+      LDAP_SERVER_ADDRESS: openldap
+      LDAP_SERVER_PORT: 389
+    ports:
+      - 8000:8000
+    depends_on:
+      - openldap

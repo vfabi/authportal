@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block message %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% endblock message %}
+
+{% block content %}
+    <div class="form-container">
+        <h3>{{ variables.html_form_header }}</h3>
+
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <div class="form-control">
+                {% if form.username.errors %}
+                    {{ form.username(class="form-control is-invalid", placeholder="Username", autocomplete="off") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.username(class="form-control", placeholder="Username", autocomplete="off") }}
+                {% endif %}
+            </div>
+
+            <div class="form-control">
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control is-invalid", placeholder="Password", autocomplete="off") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class="form-control", placeholder="Password", autocomplete="off") }}
+                {% endif %}
+            </div>
+
+            <div class="form-control">
+                {% if form.captcha_text.errors %}
+                    {{ form.captcha_text(class="form-control is-invalid", placeholder="Captcha", autocomplete="off") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.captcha_text.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.captcha_text(class="form-control", placeholder="Captcha", autocomplete="off") }}
+                {% endif %}
+            </div>
+
+            <div class="form-control" style="text-align: center!important;">
+                {{ captcha_html(captcha) | safe}}
+            </div>
+
+            <div class="form-control">
+                {{ form.submit(class="btn btn-primary btn-block btn-lg") }}
+            </div>
+
+            <p>{{ variables.app_name }}</p>
+
+        </form>
+    </div>
+{% endblock content %}

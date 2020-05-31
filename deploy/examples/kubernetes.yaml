@@ -1,0 +1,69 @@
+# Update ingress with this configuration
+#
+# nginx.ingress.kubernetes.io/auth-signin: https://frontend.ddev.se-tpm.zone/auth
+# nginx.ingress.kubernetes.io/auth-url: http://authportal.dev.svc.cluster.local
+#
+# location /auth {
+#   proxy_set_header Host $host;
+#   proxy_pass http://authportal.dev.svc.cluster.local/auth;
+# }
+
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authportal
+  namespace: dev
+data:
+  HTML_FORM_HEADER: Edge Authentication Portal
+  AUTH_BACKEND: ldap
+  LDAP_SERVER_USER_DN: 'cn=admin,dc=example,dc=com'
+  LDAP_SERVER_PASSWORD: Hjak993gHatyp
+  LDAP_SERVER_SEARCH_RDN: 'ou=Users,dc=example,dc=com'
+  LDAP_SERVER_ADDRESS: 101.101.79.208
+  LDAP_SERVER_PORT: '389'
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authportal
+  namespace: dev
+  labels:
+    app: authportal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authportal
+  template:
+    metadata:
+      labels:
+        app: authportal
+    spec:
+      containers:
+        - image: vfabi/authportal:latest
+          name: authportal
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8000
+          envFrom:
+          - configMapRef:
+              name: authportal
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authportal
+  namespace: dev
+spec:
+  selector:
+    app: authportal
+  ports:
+    - name: authportal
+      port: 80
+      protocol: TCP
+      targetPort: 8000
