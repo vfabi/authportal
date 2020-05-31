@@ -48,7 +48,7 @@ For LDAP registry you need configured user entry in RDN specified in `LDAP_SERVE
 # Configuration
 ## Environment variables
 | Name | Required | Values | Default | Description |
-|----------|:-------------:|------:|------:|------:|
+|:----------|:-------------|:------|:------|:------|
 |LOGGING_LEVEL|False|INFO,DEBUG|INFO|Logging level|
 |UNAUTHORIZED_ACTION|False|return_302, return_401|return_401|Action for unauthenticated user, return_302 - redirect to login page, return_401 - just returns HTTP/401|
 |REDIRECT_URL_PARAM_NAME|False|any string|rd|Url param name what contains redirection url for successfully authenticated user.'rd' - for Kubernetes|
