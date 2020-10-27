@@ -8,4 +8,4 @@ jsondatabase==0.1.7
 pytz==2020.1
 #flask-simple-captcha==1.1.0
 git+git://github.com/vfabi/flask-simple-captcha@master  # fixed version of original flask-simple-captcha==1.1.0
-cryptography==2.9.2
+cryptography==3.2
